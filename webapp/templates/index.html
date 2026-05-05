@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intel Image Classifier</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <main class="card">
+    <h1>Intel Image Classifier</h1>
+    <p class="subtitle">Upload an image and choose your model.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+      <label>Firstname (used in model filename)</label>
+      <input type="text" name="firstname" value="{{ firstname }}" placeholder="e.g. fatoumata" />
+
+      <label>Model</label>
+      <select name="model_choice">
+        <option value="tensorflow" {% if model_choice == 'tensorflow' %}selected{% endif %}>TensorFlow (.keras)</option>
+        <option value="pytorch" {% if model_choice == 'pytorch' %}selected{% endif %}>PyTorch (.pth)</option>
+      </select>
+
+      <label>Image file</label>
+      <input type="file" name="image" accept="image/*" required />
+
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+      <div class="result ok">Predicted class: <strong>{{ prediction }}</strong></div>
+    {% endif %}
+    {% if error %}
+      <div class="result err">{{ error }}</div>
+    {% endif %}
+  </main>
+</body>
+</html>
